@@ -28,10 +28,18 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <mvc:default-servlet-handler/>
+
     <!-- 配置annotation类型的处理映射器，它根据请求查找映射 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     <!-- 配置annotation类型的处理器适配器，完成对@RequestMapping标注方法的调用 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
     <!-- 配置视图解析器 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
+        <bean id="htmlViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="order" value="0" />
+        <property name="prefix" value="/static/html/"/>
+        <property name="suffix" value=".html" />
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+    </bean>
 </beans>
