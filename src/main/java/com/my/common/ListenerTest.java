@@ -2,7 +2,9 @@ package com.my.common;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
+@WebListener
 public class ListenerTest implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
