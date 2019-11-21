@@ -9,6 +9,19 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
+  <listener>
+    <listener-class>com.my.common.ListenerTest</listener-class>
+  </listener>
+  
+  <filter>
+    <filter-name>filterTest</filter-name>
+    <filter-class>com.my.common.FilterTest</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>filterTest</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <!--配置springmvc DispatcherServlet，前端控制器-->
   <servlet>
     <servlet-name>springmvc</servlet-name>

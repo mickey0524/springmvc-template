@@ -27,6 +27,13 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+    
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.my.common.InterceptorTest"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <mvc:default-servlet-handler/>
 
@@ -35,7 +42,7 @@
     <!-- 配置annotation类型的处理器适配器，完成对@RequestMapping标注方法的调用 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
     <!-- 配置视图解析器 -->
-        <bean id="htmlViewResolver"
+    <bean id="htmlViewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="order" value="0" />
         <property name="prefix" value="/static/html/"/>
