@@ -4,6 +4,11 @@ import com.my.dto.IdDto;
 import com.my.result.ResponseEntity;
 import com.my.result.Student;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
@@ -32,5 +37,11 @@ public class TestController {
     @RequestMapping(value = "/test_post", method = RequestMethod.POST)
     public ResponseEntity<Student> test_post(IdDto idDto) {
         return ResponseEntity.successWithData(new Student("test"));
+    }
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public ResponseEntity test_upload(@RequestPart("pic") MultipartFile pic, IdDto idDto) throws IOException {
+        pic.transferTo(new File("pic" + pic.getOriginalFilename()));
+        return ResponseEntity.successWithData(idDto);
     }
 }

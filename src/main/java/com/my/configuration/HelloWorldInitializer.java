@@ -5,6 +5,9 @@ import com.my.common.FilterTest;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.Registration;
+import javax.servlet.ServletRegistration.Dynamic;
 
 public class HelloWorldInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -25,6 +28,16 @@ public class HelloWorldInitializer extends AbstractAnnotationConfigDispatcherSer
     @Override
     protected Filter[] getServletFilters() {
         return new Filter[]{ new FilterTest() };
+    }
+
+    @Override
+    protected void customizeRegistration(Dynamic registration) {
+        registration.setMultipartConfig(new MultipartConfigElement(
+                "/Users/baihao/Desktop",
+                2097152,
+                4194304,
+                0
+        ));
     }
 
 }
