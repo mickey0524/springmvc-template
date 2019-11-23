@@ -31,6 +31,11 @@
       <param-value>/WEB-INF/springmvc-servlet.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
+    <multipart-config>
+      <location>/Users/baihao</location>
+      <max-file-size>2097152</max-file-size>
+      <max-request-size>4194304</max-request-size>
+    </multipart-config>
   </servlet>
 
   <!-- 拦截器配置，拦截所有请求 -->
