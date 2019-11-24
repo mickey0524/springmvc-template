@@ -5,6 +5,9 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -17,6 +20,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -49,4 +54,9 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new InterceptorTest()).addPathPatterns("/**");
     }
 
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder().dateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+    }
 }

@@ -1,6 +1,7 @@
 package com.my.controller;
 
 import com.my.dto.*;
+import com.my.mybatis.dao.StudentDao;
 import com.my.result.ResponseEntity;
 import com.my.result.Person;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class TestController {
 
     @Autowired
     private JdbcOperations jdbcOperations;
+
+    @Autowired
+    private StudentDao studentDao;
 
     @RequestMapping(value = "/test_get", method = RequestMethod.GET)
     public ResponseEntity test_get() {
@@ -56,4 +60,17 @@ public class TestController {
 
         return ResponseEntity.ok();
     }
+
+    @RequestMapping(value = "/test_mybatis_mysql", method = RequestMethod.POST)
+    public ResponseEntity test_mybatis_mysql(@RequestBody IdDto idDto) {
+        studentDao.delete(idDto.getId());
+
+        return ResponseEntity.ok();
+    }
+
+    @RequestMapping(value = "/test_mybatis_get_student", method = RequestMethod.GET)
+    public ResponseEntity test_mybatis_get_student(IdDto idDto) {
+        return ResponseEntity.successWithData(studentDao.select(idDto.getId()));
+    }
+
 }
