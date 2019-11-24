@@ -21,7 +21,7 @@ import java.io.IOException;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.my")
-public class HelloWordConfiguration extends WebMvcConfigurerAdapter {
+public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public ViewResolver viewResolver() {
@@ -37,22 +37,6 @@ public class HelloWordConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public MultipartResolver multipartResolver() throws IOException {
         return new StandardServletMultipartResolver();
-    }
-
-    @Bean
-    public BasicDataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/baihao?characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=true&socketTimeout=90000&connectTimeout=10000");
-        dataSource.setUsername("root");
-        dataSource.setPassword("baihao0524");
-
-        return dataSource;
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
     }
 
     @Override

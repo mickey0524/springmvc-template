@@ -6,18 +6,17 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
-import javax.servlet.Registration;
 import javax.servlet.ServletRegistration.Dynamic;
 
-public class HelloWorldInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class SpringInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{ HelloWordConfiguration.class };
+        return new Class[]{ SpringRootConfig.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return null;
+        return new Class[]{ SpringWebConfig.class };
     }
 
     @Override
