@@ -1,12 +1,10 @@
-package com.my.result;
+package com.my.dto;
 
 public class Student {
 
     private String name;
 
-    public Student(String name) {
-        this.name = name;
-    }
+    private Byte age;
 
     public String getName() {
         return name;
@@ -14,5 +12,13 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Byte getAge() {
+        return age;
+    }
+
+    public void setAge(Byte age) {
+        this.age = age;
     }
 }

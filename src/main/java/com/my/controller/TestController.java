@@ -1,8 +1,11 @@
 package com.my.controller;
 
 import com.my.dto.IdDto;
+import com.my.dto.Student;
 import com.my.result.ResponseEntity;
-import com.my.result.Student;
+import com.my.result.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +15,9 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api")
 public class TestController {
+
+    @Autowired
+    private JdbcOperations jdbcOperations;
 
     @RequestMapping(value = "/test_get", method = RequestMethod.GET)
     public ResponseEntity test_get() {
@@ -34,13 +40,20 @@ public class TestController {
     }
 
     @RequestMapping(value = "/test_post", method = RequestMethod.POST)
-    public ResponseEntity<Student> test_post(IdDto idDto) {
-        return ResponseEntity.successWithData(new Student("test"));
+    public ResponseEntity<Person> test_post(IdDto idDto) {
+        return ResponseEntity.successWithData(new Person("test"));
     }
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity test_upload(@RequestPart("pic") MultipartFile pic, IdDto idDto) throws IOException {
         pic.transferTo(new File("pic " + pic.getOriginalFilename()));
         return ResponseEntity.successWithData(idDto.getId());
+    }
+
+    @RequestMapping(value = "/test_raw_mysql", method = RequestMethod.POST)
+    public ResponseEntity test_raw_sql(@RequestBody Student student) {
+        String sql = "insert into student(name, age) values (?, ?)";
+        jdbcOperations.update(sql, student.getName(), student.getAge());
+        return ResponseEntity.ok();
     }
 }
