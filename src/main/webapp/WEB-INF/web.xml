@@ -9,10 +9,18 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:springApplicationContext.xml</param-value>
+  </context-param>
+
   <listener>
     <listener-class>com.my.common.ListenerTest</listener-class>
   </listener>
-  
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
   <filter>
     <filter-name>filterTest</filter-name>
     <filter-class>com.my.common.FilterTest</filter-class>
