@@ -7,7 +7,13 @@
     <aop:aspectj-autoproxy/>
 
     <bean id="placeholderConfigurerSupport" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:jdbc.properties"/>
+        <!--<property name="location" value="classpath:*.properties"/>-->
+        <property name="locations">
+            <array>
+                <value>classpath:jdbc.properties</value>
+                <value>classpath:redis.properties</value>
+            </array>
+        </property>
     </bean>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
@@ -36,5 +42,47 @@
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.host}"/>
+        <property name="port" value="${redis.port}"/>
+    </bean>
+
+    <!-- 对LIST,SET,ZSET,HASH等类型的处理RedisTemplate -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <!-- 对象序列化方案 -->
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+        <property name="enableTransactionSupport" value="false"/>
+    </bean>
+
+    <!-- 对String类型处理的RedisTemplate -->
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="enableTransactionSupport" value="false"/>
     </bean>
 </beans>
