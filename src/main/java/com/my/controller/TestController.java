@@ -5,6 +5,7 @@ import com.my.mybatis.dao.StudentDao;
 import com.my.result.ResponseEntity;
 import com.my.result.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,9 @@ public class TestController {
 
     @Autowired
     private StudentDao studentDao;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @RequestMapping(value = "/test_get", method = RequestMethod.GET)
     public ResponseEntity testGet() {
@@ -76,6 +80,13 @@ public class TestController {
     @RequestMapping(value = "/test_mybatis_get_student_v1", method = RequestMethod.GET)
     public ResponseEntity testMybatisGetStudentV1(IdDto idDto) {
         return ResponseEntity.successWithData(studentDao.selectV1(54));
+    }
+
+    @RequestMapping(value = "/test_set_redis", method = RequestMethod.POST)
+    public ResponseEntity testSetRedis(@RequestBody KvPair kvPair) {
+        stringRedisTemplate.opsForValue().set(kvPair.getKey(), kvPair.getValue());
+
+        return ResponseEntity.successWithData(stringRedisTemplate.opsForValue().get(kvPair.getKey()));
     }
 
 }

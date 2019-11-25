@@ -7,14 +7,13 @@ import org.springframework.core.io.ClassPathResource;
 @Configuration
 @ComponentScan(basePackages = "com.my")
 @EnableAspectJAutoProxy
-@Import(DaoConfig.class)
+@Import({DaoConfig.class, RedisConfig.class})
 public class SpringRootConfig {
 
     @Bean
     public PropertyPlaceholderConfigurer getPpc() {
         PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
-        ppc.setLocation(new ClassPathResource("jdbc.properties"));
-
+        ppc.setLocations(new ClassPathResource("jdbc.properties"), new ClassPathResource("redis.properties"));
         return ppc;
     }
 
