@@ -23,38 +23,38 @@ public class TestController {
     private StudentDao studentDao;
 
     @RequestMapping(value = "/test_get", method = RequestMethod.GET)
-    public ResponseEntity test_get() {
+    public ResponseEntity testGet() {
         return ResponseEntity.ok();
     }
 
     @RequestMapping(value = "/test_get_param", method = RequestMethod.GET)
-    public ResponseEntity test_get(@RequestParam(value = "id", defaultValue = "10") long id) {
+    public ResponseEntity testGet(@RequestParam(value = "id", defaultValue = "10") long id) {
         return ResponseEntity.successWithData(id);
     }
 
     @RequestMapping(value = "/test_get_param_v1", method = RequestMethod.GET)
-    public ResponseEntity test_get(IdDto idDto) {
+    public ResponseEntity testGet(IdDto idDto) {
         return ResponseEntity.successWithData(idDto.getId());
     }
 
     @RequestMapping(value = "/test_get_path/{id}", method = RequestMethod.GET)
-    public ResponseEntity test_get_path(@PathVariable("id") long id) {
+    public ResponseEntity testGetPath(@PathVariable("id") long id) {
         return ResponseEntity.successWithData(id);
     }
 
     @RequestMapping(value = "/test_post", method = RequestMethod.POST)
-    public ResponseEntity<Person> test_post(@RequestBody IdDto idDto) {
+    public ResponseEntity<Person> testPost(@RequestBody IdDto idDto) {
         return ResponseEntity.successWithData(new Person("test"));
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public ResponseEntity test_upload(@RequestPart("pic") MultipartFile pic, IdDto idDto) throws IOException {
+    public ResponseEntity testUpload(@RequestPart("pic") MultipartFile pic, IdDto idDto) throws IOException {
         pic.transferTo(new File("pic" + pic.getOriginalFilename()));
         return ResponseEntity.successWithData(idDto);
     }
 
     @RequestMapping(value = "/test_raw_mysql", method = RequestMethod.POST)
-    public ResponseEntity test_raw_mysql(@RequestBody Student student) {
+    public ResponseEntity testRawMysql(@RequestBody Student student) {
         String sql = "insert into student(name, age) values (?, ?)";
         jdbcOperations.update(sql, student.getName(), student.getAge());
 
@@ -62,15 +62,20 @@ public class TestController {
     }
 
     @RequestMapping(value = "/test_mybatis_mysql", method = RequestMethod.POST)
-    public ResponseEntity test_mybatis_mysql(@RequestBody IdDto idDto) {
+    public ResponseEntity testMybatisMysql(@RequestBody IdDto idDto) {
         studentDao.delete(idDto.getId());
 
         return ResponseEntity.ok();
     }
 
     @RequestMapping(value = "/test_mybatis_get_student", method = RequestMethod.GET)
-    public ResponseEntity test_mybatis_get_student(IdDto idDto) {
+    public ResponseEntity testMybatisGetStudent(IdDto idDto) {
         return ResponseEntity.successWithData(studentDao.select(idDto.getId()));
+    }
+
+    @RequestMapping(value = "/test_mybatis_get_student_v1", method = RequestMethod.GET)
+    public ResponseEntity testMybatisGetStudentV1(IdDto idDto) {
+        return ResponseEntity.successWithData(studentDao.selectV1(54));
     }
 
 }
