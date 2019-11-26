@@ -1,5 +1,6 @@
 package com.my.controller;
 
+import com.my.common.RedisCacheManager;
 import com.my.dto.*;
 import com.my.mybatis.dao.StudentDao;
 import com.my.result.ResponseEntity;
@@ -25,6 +26,9 @@ public class TestController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RedisCacheManager redisCacheManager;
 
     @RequestMapping(value = "/test_get", method = RequestMethod.GET)
     public ResponseEntity testGet() {
@@ -89,4 +93,10 @@ public class TestController {
         return ResponseEntity.successWithData(stringRedisTemplate.opsForValue().get(kvPair.getKey()));
     }
 
+    @RequestMapping(value = "/test_redis_manager", method = RequestMethod.POST)
+    public ResponseEntity testRedisManager(@RequestBody KvPair kvPair) {
+        redisCacheManager.set(kvPair.getKey(), kvPair.getValue());
+
+        return ResponseEntity.successWithData(redisCacheManager.get(kvPair.getKey()));
+    }
 }
