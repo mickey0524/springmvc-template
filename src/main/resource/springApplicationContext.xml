@@ -85,4 +85,7 @@
         </property>
         <property name="enableTransactionSupport" value="false"/>
     </bean>
+
+    <bean class="com.my.common.RedisCacheManager">
+    </bean>
 </beans>
